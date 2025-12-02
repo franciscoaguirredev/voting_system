@@ -154,7 +154,46 @@ export class VotesService {
     }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} vote`;
+
+async findAll(): Promise<interfaceHandleResponse | interfaceHandleError> {
+  try {
+    const votes = await this.voteRepository.find({
+      relations: ['voter', 'candidate'],
+      
+    });
+
+    if (votes.length === 0) {
+      return {
+        data: [],
+        message: 'No votes have been cast yet',
+        statusCode: HttpStatus.OK,
+      };
+    }
+
+    const formattedVotes = votes.map(vote => ({
+      id: vote.id,
+      voter: {
+        id: vote.voter.id,
+        name: vote.voter.name,
+        email: vote.voter.email,
+      },
+      candidate: {
+        id: vote.candidate.id,
+        name: vote.candidate.name,
+        party: vote.candidate.party,
+      }
+    }));
+
+    return {
+      data: formattedVotes,
+      message: 'Votes retrieved successfully',
+      statusCode: HttpStatus.OK,
+    };
+  } catch (error) {
+    return {
+      error,
+      message: 'Failed to retrieve votes',
+    };
   }
+}
 }

@@ -17,7 +17,7 @@ export class Voter {
   @Column({ unique: true, nullable:false, name:'email' })  
   email: string;
 
-  @Column('varchar', { length: 105, nullable: false })
+  @Column('varchar', { length: 105, nullable: false, select:false })
   @Exclude()
   password: string;
 

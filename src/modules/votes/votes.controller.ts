@@ -11,14 +11,14 @@ export class VotesController {
     return this.votesService.create(createVoteDto);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.votesService.findAll();
-  // }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.votesService.findOne(+id);
+  @Get()
+  findAll() {
+    return this.votesService.findAll();
   }
+
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.votesService.findOne(+id);
+  // }
 
 }
