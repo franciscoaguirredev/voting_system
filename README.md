@@ -31,8 +31,8 @@ limpia.
 
 ### 1. Clonar el repositorio
 
-    git clone <url-del-repositorio>
-    cd sistema-votacion
+    git clone https://github.com/franciscoaguirredev/voting_system.git
+    cd voting_system
 
 ### 2. Instalar dependencias
 
@@ -50,8 +50,6 @@ Crear `.env`:
 
     JWT_SECRET=supersecret_jwt
     JWT_EXPIRES=2h
-
-    PORT=3000
 
 ### 4. Crear la base de datos
 
