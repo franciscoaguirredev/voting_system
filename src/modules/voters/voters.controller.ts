@@ -22,11 +22,6 @@ export class VotersController {
     return this.votersService.findOne(id);
   }
 
-  @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateVoterDto: UpdateVoterDto) {
-    return await this.votersService.update(id, updateVoterDto);
-  }
-
   @Delete(':id')
   async remove(@Param('id') id: string) {
     return await this.votersService.remove(id);

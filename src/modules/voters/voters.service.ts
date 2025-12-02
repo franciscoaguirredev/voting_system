@@ -100,27 +100,7 @@ export class VotersService {
     }
   }
 
-  async update(
-    id: string,
-    updateVoterDto: UpdateVoterDto,
-  ): Promise<interfaceHandleResponse | interfaceHandleError> {
-    try {
-      const voter = await this.voterRepository.findOne({ where: { id } });
-      if (!voter) {
-        throw new NotFoundException(`User with Id ${id} not found`);
-      }
-      Object.assign(voter, updateVoterDto);
-      const savedVoter = await this.voterRepository.save(voter);
-      return {
-        data: savedVoter,
-        message: 'Voter updated successfully',
-        statusCode: HttpStatus.OK,
-      };
-    } catch (error) {
-      if (error instanceof NotFoundException) throw error;
-      return { error, message: 'Failed to update Voter' };
-    }
-  }
+
 
   async remove(
     id: string,
