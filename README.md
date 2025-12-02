@@ -73,12 +73,11 @@ Swagger: http://localhost:3000/api/docs
 
 ## 🧍‍♂️ Voters
 
-  Método   Endpoint                 Descripción
-  -------- ------------------------ ------------------
-  POST     `/voters`                Crear votante
-  GET      `/voters`                Obtener votantes
-  GET      `/voters/:id`            Obtener por ID
-  DELETE   `/voters/:id`            Eliminar por ID
+    Método   Endpoint                 Descripción
+    POST     `/voters`                Crear votante
+    GET      `/voters`                Obtener votantes
+    GET      `/voters/:id`            Obtener por ID
+    DELETE   `/voters/:id`            Eliminar por ID
  
 ### DTO
 
@@ -90,12 +89,12 @@ Swagger: http://localhost:3000/api/docs
 
 ## 🧑‍💼 Candidates
 
-  Método   Endpoint            Descripción
-  -------- ------------------- -----------------
-  POST     `/candidates`       Crear candidato
-  GET      `/candidates`       Obtener todos
-  GET      `/candidates/:id`   Obtener por ID
-  DELETE   `/candidates/:id`   Eliminar
+
+    Método   Endpoint            Descripción
+    POST     `/candidates`       Crear candidato
+    GET      `/candidates`       Obtener todos
+    GET      `/candidates/:id`   Obtener por ID    
+    DELETE   `/candidates/:id`   Eliminar
 
 ### DTO
 
