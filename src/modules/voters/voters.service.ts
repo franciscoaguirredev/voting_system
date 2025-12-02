@@ -74,33 +74,53 @@ export class VotersService {
     }
   }
 
-  async findOne(id: string,): Promise<interfaceHandleResponse | interfaceHandleError> {
+  async findOne(
+    id: string,
+  ): Promise<interfaceHandleResponse | interfaceHandleError> {
     try {
-    const voter = await this.voterRepository.findOne({
-      where: { id },
-      select: ['id', 'name', 'email', 'has_voted'],
-    });
+      const voter = await this.voterRepository.findOne({
+        where: { id },
+        select: ['id', 'name', 'email', 'has_voted'],
+      });
 
-    if (!voter) {
-      throw new NotFoundException(`Votante con ID ${id} no encontrado`);
+      if (!voter) {
+        throw new NotFoundException(`Votante con ID ${id} no encontrado`);
+      }
+
+      return {
+        data: voter,
+        message: 'Voter found successfully',
+        statusCode: HttpStatus.OK,
+      };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      return {
+        error,
+        message: 'Failed to fetch voter',
+      };
     }
-
-    return {
-      data: voter,
-      message: 'Voter found successfully',
-      statusCode: HttpStatus.OK,
-    };
-  } catch (error) {
-    if (error instanceof NotFoundException) throw error;
-    return {
-      error,
-      message: 'Failed to fetch voter',
-    };
-  }
   }
 
-  update(id: number, updateVoterDto: UpdateVoterDto) {
-    return `This action updates a #${id} voter`;
+  async update(
+    id: string,
+    updateVoterDto: UpdateVoterDto,
+  ): Promise<interfaceHandleResponse | interfaceHandleError> {
+    try {
+      const voter = await this.voterRepository.findOne({ where: { id } });
+      if (!voter) {
+        throw new NotFoundException(`User with Id ${id} not found`);
+      }
+      Object.assign(voter, updateVoterDto);
+      const savedVoter = await this.voterRepository.save(voter);
+      return {
+        data: savedVoter,
+        message: 'Voter updated successfully',
+        statusCode: HttpStatus.OK,
+      };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      return { error, message: 'Failed to update Voter' };
+    }
   }
 
   remove(id: number) {

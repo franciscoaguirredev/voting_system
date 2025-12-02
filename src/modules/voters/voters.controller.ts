@@ -24,7 +24,7 @@ export class VotersController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateVoterDto: UpdateVoterDto) {
-    return this.votersService.update(+id, updateVoterDto);
+    return this.votersService.update(id, updateVoterDto);
   }
 
   @Delete(':id')
