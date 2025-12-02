@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-// import { Vote } from './vote.entity';
+import { Vote } from 'src/modules/votes/entities/vote.entity';
 
 @Entity('candidates')
 export class Candidate {
@@ -12,6 +12,6 @@ export class Candidate {
   @Column({ nullable: true })
   party: string;
 
-  //@OneToMany(() => Vote, vote => vote.candidate)
-  //votes: Vote[];
+  @OneToMany(() => Vote, vote => vote.candidate)
+  votes: Vote[];
 }

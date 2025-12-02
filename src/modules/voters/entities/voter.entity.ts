@@ -1,5 +1,6 @@
 import { Exclude } from 'class-transformer';
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Vote } from 'src/modules/votes/entities/vote.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity('voters')
 export class Voter {
@@ -16,10 +17,13 @@ export class Voter {
   @Column({ unique: true, nullable:false, name:'email' })  
   email: string;
 
-  @Column('varchar', { length: 105, select: false, nullable: false })
+  @Column('varchar', { length: 105, nullable: false })
   @Exclude()
   password: string;
 
   @Column({ default: false })
-  has_voted: boolean;  
+  has_voted: boolean;
+  
+  @OneToMany(() => Vote, vote => vote.voter)
+  votes: Vote[];
 }
