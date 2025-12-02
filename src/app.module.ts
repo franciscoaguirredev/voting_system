@@ -7,6 +7,7 @@ import { VotersModule } from './modules/voters/voters.module';
 import { Voter } from './modules/voters/entities/voter.entity';
 import { Candidate } from './modules/candidates/entities/candidate.entity';
 import { CandidatesModule } from './modules/candidates/candidates.module';
+import { VotesModule } from './modules/votes/votes.module';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { CandidatesModule } from './modules/candidates/candidates.module';
       }),
     }),
     VotersModule,
-    CandidatesModule
+    CandidatesModule,
+    VotesModule
   ],
   controllers: [AppController],
   providers: [AppService],
