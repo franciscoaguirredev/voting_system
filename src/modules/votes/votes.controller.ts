@@ -16,9 +16,14 @@ export class VotesController {
     return this.votesService.findAll();
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.votesService.findOne(+id);
-  // }
+  @Get('statistics')
+  getStatistics() {
+    return this.votesService.getStatistics();
+  }
+
+  @Get('participation')
+  async getParticipation() {
+    return await this.votesService.countVotersWhoVoted();
+  }
 
 }

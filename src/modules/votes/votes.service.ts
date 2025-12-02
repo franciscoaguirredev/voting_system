@@ -154,46 +154,129 @@ export class VotesService {
     }
   }
 
+  async findAll(): Promise<interfaceHandleResponse | interfaceHandleError> {
+    try {
+      const votes = await this.voteRepository.find({
+        relations: ['voter', 'candidate'],
+      });
 
-async findAll(): Promise<interfaceHandleResponse | interfaceHandleError> {
-  try {
-    const votes = await this.voteRepository.find({
-      relations: ['voter', 'candidate'],
-      
-    });
+      if (votes.length === 0) {
+        return {
+          data: [],
+          message: 'No votes have been cast yet',
+          statusCode: HttpStatus.OK,
+        };
+      }
 
-    if (votes.length === 0) {
+      const formattedVotes = votes.map((vote) => ({
+        id: vote.id,
+        voter: {
+          id: vote.voter.id,
+          name: vote.voter.name,
+          email: vote.voter.email,
+        },
+        candidate: {
+          id: vote.candidate.id,
+          name: vote.candidate.name,
+          party: vote.candidate.party,
+        },
+      }));
+
       return {
-        data: [],
-        message: 'No votes have been cast yet',
+        data: formattedVotes,
+        message: 'Votes retrieved successfully',
         statusCode: HttpStatus.OK,
       };
+    } catch (error) {
+      return {
+        error,
+        message: 'Failed to retrieve votes',
+      };
     }
-
-    const formattedVotes = votes.map(vote => ({
-      id: vote.id,
-      voter: {
-        id: vote.voter.id,
-        name: vote.voter.name,
-        email: vote.voter.email,
-      },
-      candidate: {
-        id: vote.candidate.id,
-        name: vote.candidate.name,
-        party: vote.candidate.party,
-      }
-    }));
-
-    return {
-      data: formattedVotes,
-      message: 'Votes retrieved successfully',
-      statusCode: HttpStatus.OK,
-    };
-  } catch (error) {
-    return {
-      error,
-      message: 'Failed to retrieve votes',
-    };
   }
-}
+
+  async getStatistics(): Promise<
+    interfaceHandleResponse | interfaceHandleError
+  > {
+    try {
+      // 1. Obtener total de votos
+      const totalVotes = await this.voteRepository.count();
+
+      // 2. Obtener candidatos y sus votos
+      const candidates = await this.candidateRepository.find({
+        relations: ['votes'],
+      });
+
+      // 3. Construir estadísticas por candidato
+      const stats = candidates.map((candidate) => {
+        const votesCount = candidate.votes.length;
+
+        let percentage = 0;
+
+        if (totalVotes > 0) {
+          const result = (votesCount / totalVotes) * 100;
+          percentage = Number(result.toFixed(2));
+        }
+
+        return {
+          candidateId: candidate.id,
+          candidateName: candidate.name,
+          party: candidate.party,
+          votes: votesCount, //Total votos por candidato
+          percentage: percentage, //Porcentaje de votos por candidato
+        };
+      });
+
+      return {
+        data: {
+          totalVotes: totalVotes,
+          candidates: stats,
+        },
+        message: 'Statistics successfully created',
+        statusCode: HttpStatus.OK,
+      };
+    } catch (error) {
+      return {
+        error,
+        message: 'Failed to create Statistics',
+      };
+    }
+  }
+
+  async countVotersWhoVoted(): Promise<
+    interfaceHandleResponse | interfaceHandleError
+  > {
+    try {
+      // 1. Contar votantes que han votado
+      const votedCount = await this.voterRepository.count({
+        where: { has_voted: true },
+      });
+
+      // 2. Contar total de votantes
+      const totalVoters = await this.voterRepository.count();
+
+      // 3. Calcular porcentaje de participación
+      let percentage = 0;
+
+      if (totalVoters > 0) {
+        const result = (votedCount / totalVoters) * 100;
+        percentage = Number(result.toFixed(2));
+      }
+
+      return {
+        data: {
+          totalVoters: totalVoters, //Total votantes registrados
+          votersWhoVoted: votedCount, //Total de votantes que han votado
+          participationPercentage: percentage, //Porcentaje de participación
+        },
+        message: 'Voter participation statistics retrieved successfully',
+        statusCode: HttpStatus.OK,
+      };
+    } catch (error) {
+      return {
+        error,
+        message: 'Failed to retrieve voter participation statistics',
+      };
+    }
+  }
 }
