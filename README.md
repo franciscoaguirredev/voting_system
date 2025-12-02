@@ -1,5 +1,9 @@
 # 🗳️ Sistema de Votación Electrónica -- API REST
 
+## Presentación y pruebas
+[![Video de demostración](https://img.youtube.com/vi/0i9Hdzsq0sA/maxresdefault.jpg)](https://www.youtube.com/watch?v=0i9Hdzsq0sA)
+
+
 API desarrollada con **NestJS**, **TypeScript**, **TypeORM** y
 **PostgreSQL**, diseñada para gestionar votantes, candidatos y votos,
 incluyendo estadísticas y participación.
