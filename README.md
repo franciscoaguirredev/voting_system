@@ -106,7 +106,6 @@ Swagger: http://localhost:3000/api/docs
 ## 🗳️ Votes
 
   Método   Endpoint                 Descripción
-  -------- ------------------------ ----------------
   POST     `/votes`                 Registrar voto
   GET      `/votes`                 Obtener votos
   GET      `/votes/statistics`      Estadísticas
