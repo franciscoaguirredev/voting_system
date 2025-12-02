@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
   IsNotEmpty,
@@ -9,14 +10,12 @@ import {
 } from 'class-validator';
 
 export class CreateCandidateDto {
-    
-    @IsString()
-    @MinLength(3, { message: 'Name must have at least 3 characters'})
-    @IsNotEmpty()
-    name: string;
+  @IsString()
+  @MinLength(3, { message: 'Name must have at least 3 characters' })
+  @IsNotEmpty()
+  name: string;
 
-    @IsString()
-    @IsOptional()
-    party: string;
-
+  @IsString()
+  @IsOptional()
+  party: string;
 }
