@@ -9,6 +9,7 @@ import { Candidate } from './modules/candidates/entities/candidate.entity';
 import { CandidatesModule } from './modules/candidates/candidates.module';
 import { VotesModule } from './modules/votes/votes.module';
 import { AuthModule } from './auth/auth.module';
+import { Vote } from './modules/votes/entities/vote.entity';
 
 @Module({
   imports: [
@@ -25,8 +26,8 @@ import { AuthModule } from './auth/auth.module';
         username: configService.get('DB_USER'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        dropSchema:true,
-        entities: [Voter, Candidate],
+        //dropSchema:true,
+        entities: [Voter, Candidate, Vote],
         synchronize: true,
         autoLoadEntities: true,
       }),
