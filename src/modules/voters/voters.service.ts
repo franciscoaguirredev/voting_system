@@ -7,7 +7,6 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateVoterDto } from './dto/create-voter.dto';
-import { UpdateVoterDto } from './dto/update-voter.dto';
 import { Voter } from './entities/voter.entity';
 import * as bcrypt from 'bcrypt';
 import { interfaceHandleResponse } from '../common/handleResponse.interface';
