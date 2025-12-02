@@ -84,7 +84,7 @@ export class VotersService {
       });
 
       if (!voter) {
-        throw new NotFoundException(`Votante con ID ${id} no encontrado`);
+        throw new NotFoundException(`Voter with ID ${id} no found`);
       }
 
       return {
@@ -123,7 +123,23 @@ export class VotersService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} voter`;
+  async remove(
+    id: string,
+  ): Promise<interfaceHandleResponse | interfaceHandleError> {
+    try {
+      const voter = await this.voterRepository.findOne({ where: { id } });
+      if (!voter) {
+        throw new NotFoundException(`voter with Id ${id} not found`);
+      }
+      await this.voterRepository.remove(voter);
+      return {
+        data: null,
+        message: 'Voter deleted successfully',
+        statusCode: HttpStatus.OK,
+      };
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      return { error, message: 'Failed to delete voter' };
+    }
   }
 }

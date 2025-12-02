@@ -23,12 +23,12 @@ export class VotersController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateVoterDto: UpdateVoterDto) {
-    return this.votersService.update(id, updateVoterDto);
+  async update(@Param('id') id: string, @Body() updateVoterDto: UpdateVoterDto) {
+    return await this.votersService.update(id, updateVoterDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.votersService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.votersService.remove(id);
   }
 }
