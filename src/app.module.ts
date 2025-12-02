@@ -3,6 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { VotersModule } from './modules/voters/voters.module';
+import { Voter } from './modules/voters/entities/voter.entity';
+import { Candidate } from './modules/candidates/entities/candidate.entity';
+import { CandidatesModule } from './modules/candidates/candidates.module';
 
 @Module({
   imports: [
@@ -19,11 +23,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
         username: configService.get('DB_USER'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        dropSchema:true,
+        entities: [Voter, Candidate],
         synchronize: true,
         autoLoadEntities: true,
       }),
     }),
+    VotersModule,
+    CandidatesModule
   ],
   controllers: [AppController],
   providers: [AppService],
